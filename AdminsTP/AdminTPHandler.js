@@ -14,7 +14,7 @@ const { TextEncoder, TextDecoder } = require("text-encoding/lib/encoding");
 
 const FAMILY = "AdminTP";
 const Version = "1.0";
-const NAMESPACE = hash(FAMILY).substr(0, 6);
+const NAMESPACE = hash(FAMILY).substr(0, 8);
 
 var encoder = new TextEncoder("utf8");
 var decoder = new TextDecoder("utf8");
@@ -33,6 +33,7 @@ var _toInternalError = function(err) {
 
 //function to set the entries in the block using the "SetState" function
 function _setEntry(context, address, stateValue) {
+  console.log("State value:");
   //code here
   let msgBytes = encoder.encode(stateValue);
   let entries = {
@@ -49,11 +50,29 @@ class AdminTPHandler extends TransactionHandler {
     try {
       let header = transactionProcessRequest.header;
       this.publicKey = header.signerPublicKey;
-      this.address =
-        hash(FAMILY).substr(0, 6) + hash(this.publicKey).substr(0, 64);
-      //tp request variables
-      var msg = decoder.decode(transactionProcessRequest.payload);
-      return _setEntry(context, this.address, msg);
+      var msg = JSON.parse(decoder.decode(transactionProcessRequest.payload));
+      let Operation = msg[0];
+      console.log("NewUnit registr 12");
+      if (Operation === "NewUnit") {
+        console.log("NewUnit registr 123");
+        let UnitType = msg[2];
+        console.log("NewUnit registr 123" + UnitType);
+        if (UnitType == "1") {
+          this.address =
+            NAMESPACE + "01" + hash(msg[1].toString()).substr(0, 60);
+        } else {
+          this.address =
+            NAMESPACE + "02" + hash(msg[1].toString()).substr(0, 60);
+        }
+        console.log("NewUnit registr ");
+        msg.shift();
+        console.log("NewUnit registr1 ");
+        let data = JSON.stringify(msg);
+        console.log("NewUnit registr2 ");
+        return _setEntry(context, this.address, data);
+      } else {
+        _toInternalError("Invalid Type");
+      }
     } catch (err) {
       _toInternalError(err);
     }

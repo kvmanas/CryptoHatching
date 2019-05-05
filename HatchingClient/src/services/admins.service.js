@@ -14,8 +14,8 @@ const Version = "1.0";
 var encoder = new TextEncoder("utf8");
 var decoder = new TextDecoder("utf8");
 
-const privateKeyHex =
-  "83a6196603b547d02ba39f4b0dc6f6321d25bcc77e79f8877ccea30f19782e24";
+// const privateKeyHex =
+//   "83a6196603b547d02ba39f4b0dc6f6321d25bcc77e79f8877ccea30f19782e24";
 
 function hash(v) {
   //return hash
@@ -24,26 +24,38 @@ function hash(v) {
     .digest("hex");
 }
 
-export default class AddUint {
-  constructor() {
+export default class UintMod {
+  constructor(privateKeyHex) {
     //create signer, public key and get address
     const context = createContext("secp256k1");
     const secp256k1pk = Secp256k1PrivateKey.fromHex(privateKeyHex.trim());
     this.signer = new CryptoFactory(context).newSigner(secp256k1pk);
     this.publicKey = this.signer.getPublicKey().asHex();
-    this.address =
-      hash(FAMILY).substr(0, 6) + hash(this.publicKey).substr(0, 64);
   }
 
-  Production(value) {
-    var payload = value;
+  NewUnit(data) {
+    let StateAdd;
+    if (data[1] == "1") {
+      StateAdd =
+        hash(FAMILY).substr(0, 8) +
+        "01" +
+        hash(data[0].toString()).substr(0, 60);
+    } else {
+      StateAdd =
+        hash(FAMILY).substr(0, 8) +
+        "02" +
+        hash(data[0].toString()).substr(0, 60);
+    }
+    console.log(StateAdd);
+    data.unshift("NewUnit");
+    var payload = JSON.stringify(data);
     const payloadBytes = encoder.encode(payload);
     return TransactionBuild(
       this.publicKey,
       this.signer,
       payloadBytes,
-      [this.address],
-      [this.address]
+      [StateAdd],
+      [StateAdd]
     );
   }
 }

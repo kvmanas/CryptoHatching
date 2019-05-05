@@ -62,20 +62,27 @@ export default {
       var that = this;
       setTimeout(function() {
         if (PubKey === 0) {
-          that.$notification.error("Invalid Private Key", {
-            position: "bottomRight",
-            showLeftIcn: true,
-            showCloseIcn: true,
-            timer: 5
+          that.$swal({
+            toast: true,
+            position: "bottom-end",
+            showConfirmButton: false,
+            timer: 3000,
+            type: "error",
+            title: "Oops..",
+            text: "Invalid Private Key!"
           });
           that.isError = true;
         } else {
           localStorage.PrvKey = that.PrvKey;
           localStorage.PubKey = PubKey;
-          that.$notification.success("Login Success", {
-            position: "bottomRight",
-            showCloseIcn: true,
-            timer: 5
+          that.$swal({
+            toast: true,
+            position: "bottom-end",
+            showConfirmButton: false,
+            timer: 3000,
+            type: "success",
+            title: "Success!",
+            text: "Successfully Logged in"
           });
           $("#loginmodel").modal("hide");
           that.isError = false;

@@ -99,7 +99,7 @@
                       <div class="col-md-2">
                         <div class="form-group">
                           <label>unit</label>
-                          <select v-model="BirdPower.level1.type" class="form-control">
+                          <select v-model="BirdPower.level1.unit" class="form-control">
                             <option value="1">%</option>
                             <option value="2">+</option>
                           </select>
@@ -116,7 +116,7 @@
                       <div class="col-md-2">
                         <div class="form-group">
                           <label>unit</label>
-                          <select v-model="BirdPower.level2.type" class="form-control">
+                          <select v-model="BirdPower.level2.unit" class="form-control">
                             <option value="1">%</option>
                             <option value="2">+</option>
                           </select>
@@ -133,7 +133,7 @@
                       <div class="col-md-2">
                         <div class="form-group">
                           <label>unit</label>
-                          <select v-model="BirdPower.level3.type" class="form-control">
+                          <select v-model="BirdPower.level3.unit" class="form-control">
                             <option value="1">%</option>
                             <option value="2">+</option>
                           </select>
@@ -146,8 +146,14 @@
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label>Base Production Rate</label>
-                        <input name="BaseRate" v-model="BaseRate" type="text" class="form-control">
+                        <label>Base Attack</label>
+                        <input v-model="BaseAttack" type="text" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Base Defence</label>
+                        <input v-model="BaseDefence" type="text" class="form-control">
                       </div>
                     </div>
                   </div>
@@ -159,15 +165,24 @@
                       <div class="col-md-8">
                         <div class="form-group">
                           <label>Level 1</label>
-                          <input type="text" class="form-control" placeholder="Hello there!">
+                          <input v-model="PigPower.level1.rate" type="text" class="form-control">
                         </div>
                       </div>
                       <div class="col-md-2">
                         <div class="form-group">
                           <label>unit</label>
-                          <select class="form-control">
+                          <select v-model="PigPower.level1.unit" class="form-control">
                             <option value="1">%</option>
                             <option value="2">+</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label>Type</label>
+                          <select v-model="PigPower.level1.type" class="form-control">
+                            <option value="1">Attack</option>
+                            <option value="2">Defence</option>
                           </select>
                         </div>
                       </div>
@@ -176,15 +191,24 @@
                       <div class="col-md-8">
                         <div class="form-group">
                           <label>Level 2</label>
-                          <input type="text" class="form-control" placeholder="Hello there!">
+                          <input v-model="PigPower.level2.rate" type="text" class="form-control">
                         </div>
                       </div>
                       <div class="col-md-2">
                         <div class="form-group">
                           <label>unit</label>
-                          <select class="form-control">
+                          <select v-model="PigPower.level2.unit" class="form-control">
                             <option value="1">%</option>
                             <option value="2">+</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label>Type</label>
+                          <select v-model="PigPower.level2.type" class="form-control">
+                            <option value="1">Attack</option>
+                            <option value="2">Defence</option>
                           </select>
                         </div>
                       </div>
@@ -193,15 +217,24 @@
                       <div class="col-md-8">
                         <div class="form-group">
                           <label>Level 3</label>
-                          <input type="text" class="form-control" placeholder="Hello there!">
+                          <input v-model="PigPower.level3.rate" type="text" class="form-control">
                         </div>
                       </div>
                       <div class="col-md-2">
                         <div class="form-group">
                           <label>unit</label>
-                          <select class="form-control">
+                          <select v-model="PigPower.level3.unit" class="form-control">
                             <option value="1">%</option>
                             <option value="2">+</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label>Type</label>
+                          <select v-model="PigPower.level3.type" class="form-control">
+                            <option value="1">Attack</option>
+                            <option value="2">Defence</option>
                           </select>
                         </div>
                       </div>
@@ -216,7 +249,7 @@
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Level 1</label>
-                        <input type="text" class="form-control" placeholder="Hello there!">
+                        <input v-model="MaxLevel.level1" type="text" class="form-control">
                       </div>
                     </div>
                   </div>
@@ -224,7 +257,7 @@
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Level 2</label>
-                        <input type="text" class="form-control" placeholder="Hello there!">
+                        <input v-model="MaxLevel.level2" type="text" class="form-control">
                       </div>
                     </div>
                   </div>
@@ -232,7 +265,7 @@
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Level 3</label>
-                        <input type="text" class="form-control" placeholder="Hello there!">
+                        <input v-model="MaxLevel.level3" type="text" class="form-control">
                       </div>
                     </div>
                   </div>
@@ -248,9 +281,7 @@
 </template>
 <script>
 import { upload } from "@/services/file-upload.service";
-import AddUnit from "@/services/admins.service";
-
-const addunit = new AddUnit();
+import UintMod from "@/services/admins.service";
 
 const STATUS_INITIAL = 0,
   STATUS_SAVING = 1,
@@ -268,20 +299,45 @@ export default {
       BaseRate: null,
       UnitType: "1",
       UnitName: null,
+      UnitId: null,
       BirdPower: {
         level1: {
           rate: null,
+          unit: "1"
+        },
+        level2: {
+          rate: null,
+          unit: "1"
+        },
+        level3: {
+          rate: null,
+          unit: "1"
+        }
+      },
+      PigPower: {
+        level1: {
+          rate: null,
+          unit: "1",
           type: "1"
         },
         level2: {
           rate: null,
+          unit: "1",
           type: "1"
         },
         level3: {
           rate: null,
+          unit: "1",
           type: "1"
         }
-      }
+      },
+      MaxLevel: {
+        level1: null,
+        level2: null,
+        level3: null
+      },
+      BaseAttack: null,
+      BaseDefence: null
     };
   },
   computed: {
@@ -304,9 +360,70 @@ export default {
   methods: {
     async NewUnitForm(e) {
       e.preventDefault();
-      console.log(this.BirdPower.level1.type);
-      var asd = await addunit.Production(this.BaseRate);
-      console.log(asd);
+      var formdata;
+      if (this.UnitType == "1") {
+        formdata = [
+          this.UnitId,
+          this.UnitType,
+          this.UnitName,
+          this.BaseRate,
+          this.BirdPower,
+          this.MaxLevel
+        ];
+      } else {
+        formdata = [
+          this.UnitId,
+          this.UnitType,
+          this.UnitName,
+          this.BaseAttack,
+          this.BaseDefence,
+          this.PigPower,
+          this.MaxLevel
+        ];
+      }
+      var isEmpty = this.checkisnull(formdata);
+      if (isEmpty) {
+        this.$swal({
+          type: "error",
+          title: "Oops...",
+          text: "All Fields Required!"
+        });
+      } else {
+        const addunit = new UintMod(localStorage.PrvKey);
+        let response = await addunit.NewUnit(formdata);
+        this.$swal({
+          type: "success",
+          title: "Success!!",
+          text: "Successfull"
+        });
+      }
+      //var asd = await addunit.Production(this.BaseRate);
+      //console.log(asd);
+    },
+    checkisnull(data) {
+      for (var y in data) {
+        var x = data[y];
+        if (x === Object(x)) {
+          for (var key in x) {
+            if (x[key] === Object(x[key])) {
+              for (var keyz in x[key]) {
+                if (x[key][keyz] === null || x[key][keyz] === "") {
+                  return true;
+                }
+              }
+            } else {
+              if (x[key] === null || x[key] === "") {
+                return true;
+              }
+            }
+          }
+        } else {
+          if (x === null || x === "") {
+            return true;
+          }
+        }
+      }
+      return false;
     },
     reset() {
       // reset form to initial state
@@ -321,6 +438,7 @@ export default {
       upload(formData)
         .then(x => {
           console.log(x);
+          this.UnitId = x.id;
           this.uploadedFiles = [].concat(x);
           this.currentStatus = STATUS_SUCCESS;
         })

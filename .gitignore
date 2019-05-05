@@ -33,7 +33,10 @@ bower_components
 build/Release
 
 # Dependency directories
-node_modules/
+StorageService/Uploads
+AdminsTP/node_modules/
+HatchingClient/node_modules/
+StorageService/node_modules/
 jspm_packages/
 
 # TypeScript v1 declaration files
