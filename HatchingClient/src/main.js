@@ -12,7 +12,7 @@ Vue.use(VueNotification, {
   timer: 5
 });
 Vue.use(VueLoading, {
-  text: "Here I come..",
+  text: "Ḷoading..",
   bg: "rgba(230, 233, 236, 0.8)",
   textColor: "#000",
   spinnerClass: "fa fa-spin fa-spinner fa-3x"
