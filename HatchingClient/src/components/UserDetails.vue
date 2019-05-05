@@ -46,7 +46,7 @@ export default {
   left: 0;
   bottom: 0;
   width: 100%;
-  background-color: #1f2251;
+  background-color: #1d8cf8;
   color: white;
   text-align: center;
   z-index: 1;
