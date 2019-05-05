@@ -1,0 +1,82 @@
+version: "2.0"
+
+services:
+  game-client:
+    container_name: game-client
+    build:
+      context: .
+      dockerfile: ./HatchingClient/Dockerfile
+    expose:
+      - 4000
+    ports:
+      - 4000:4000
+    volumes:
+      - ".:/Hatching"
+    depends_on:
+      - sawtooth-rest-api
+  game-storage:
+    container_name: game-storage
+    build:
+      context: .
+      dockerfile: ./StorageService/Dockerfile
+    expose:
+      - 4010
+    ports:
+      - 4010:4010
+    volumes:
+      - ".:/Hatching"
+
+  admins-processor:
+    container_name: admins-processor
+    build:
+      context: .
+      dockerfile: ./AdminsTP/DockerFile
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    depends_on:
+      - validator
+    volumes:
+      - ".:/Hatching"
+
+  sawtooth-rest-api:
+    container_name: rest-api
+    image: hyperledger/sawtooth-rest-api:1.0
+    expose:
+      - 8008
+    ports:
+      - "8008:8008"
+    depends_on:
+      - validator
+    entrypoint: |
+      sawtooth-rest-api -vvv
+        --connect tcp://validator:4004
+        --bind sawtooth-rest-api:8008
+
+  settings-tp:
+    image: hyperledger/sawtooth-settings-tp:1.0
+    depends_on:
+      - validator
+    command: settings-tp -vv --connect tcp://validator:4004
+
+  validator:
+    container_name: validator
+    image: hyperledger/sawtooth-validator:1.0
+    expose:
+      - 4004
+    ports:
+      - "4004:4004"
+    command: |
+      bash -c "
+        if [ ! -f /etc/sawtooth/keys/validator.priv ]; then
+        sawadm keygen &&
+        sawtooth keygen my_key &&
+        sawset genesis -k /root/.sawtooth/keys/my_key.priv &&
+        sawadm genesis config-genesis.batch
+        fi;
+        sawtooth-validator -vvv \
+          --endpoint tcp://validator:8800 \
+          --bind component:tcp://eth0:4004 \
+          --bind network:tcp://eth0:8800
+      "
