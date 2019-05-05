@@ -26,15 +26,15 @@
                     <i class="fa fa-key"></i>
                   </span>
                 </div>
-                <input type="text" class="form-control" placeholder="Private Key">
+                <input v-model="PrvKey" type="text" class="form-control" placeholder="Private Key">
               </div>
-               <div class="input-group">
+              <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fas fa-user-tag"></i>
                   </span>
                 </div>
-                <input type="text" class="form-control" placeholder="Public Key">
+                <input v-model="PubKey" type="text" class="form-control" placeholder="Public Key">
               </div>
             </div>
           </div>
@@ -44,7 +44,30 @@
   </div>
 </template>
 <script>
+import { GetPubKey } from "@/services/login.service";
 export default {
-  name: "RegisterModel"
+  name: "RegisterModel",
+  data() {
+    return {
+      PrvKey: "",
+      PubKey: ""
+    };
+  },
+  created() {
+    this.$root.$on("register-event", data => {
+      if (data) {
+        var result = "";
+        var characters = "abcdef0123456789";
+        var charactersLength = characters.length;
+        for (var i = 0; i < 64; i++) {
+          result += characters.charAt(
+            Math.floor(Math.random() * charactersLength)
+          );
+        }
+        this.PrvKey = result;
+        this.PubKey = GetPubKey(this.PrvKey);
+      }
+    });
+  }
 };
 </script>

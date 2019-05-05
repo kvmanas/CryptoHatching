@@ -52,7 +52,12 @@
             </button>
           </li>
           <li class="nav-item p-0" v-if="!isLogged">
-            <button class="nav-link" data-toggle="modal" data-target="#registermodel">
+            <button
+              v-on:click="register"
+              class="nav-link"
+              data-toggle="modal"
+              data-target="#registermodel"
+            >
               <i class="fas fa-user-plus"></i>Register
             </button>
           </li>
@@ -91,6 +96,9 @@ export default {
       localStorage.removeItem("PrvKey");
       localStorage.removeItem("PubKey");
       this.$root.$emit("login-event", false);
+    },
+    register() {
+      this.$root.$emit("register-event", true);
     }
   }
 };
