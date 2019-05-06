@@ -3,12 +3,12 @@
     <PageHeader/>
     <v-card height="50px">
       <v-bottom-nav :active.sync="bottomNav" :color="color" :value="true" absolute dark shift>
-        <v-btn dark to="/">
+        <v-btn dark to="/Admin">
           <span>Shop</span>
           <i aria-hidden="true" class="v-icon theme--dark fas fa-store"></i>
         </v-btn>
 
-        <v-btn dark to="/Barracks">
+        <v-btn dark to="/Admin/Edit">
           <span>Production</span>
           <i aria-hidden="true" class="v-icon theme--dark fab fa-earlybirds"></i>
         </v-btn>

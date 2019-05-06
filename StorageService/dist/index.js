@@ -21,12 +21,16 @@ const COLLECTION_NAME = "images";
 const UPLOAD_PATH = "Uploads/Images";
 const upload = multer({ dest: `${UPLOAD_PATH}/`, fileFilter: utils_1.imageFilter }); // multer configuration
 const db = new Loki(`${UPLOAD_PATH}/${DB_NAME}`, { persistenceMethod: "fs" });
+let col;
+db.loadDatabase({}, () => {
+    const _collection = db.getCollection(COLLECTION_NAME) || db.addCollection(COLLECTION_NAME);
+    col = _collection;
+});
 // app
 const app = express();
 app.use(cors());
 app.post("/upload", upload.single("image"), (req, res) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const col = yield utils_1.loadCollection(COLLECTION_NAME, db);
         const data = col.insert(req.file);
         db.saveDatabase();
         res.send({
@@ -41,7 +45,6 @@ app.post("/upload", upload.single("image"), (req, res) => __awaiter(this, void 0
 }));
 app.get("/images/:id", (req, res) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const col = yield utils_1.loadCollection(COLLECTION_NAME, db);
         const result = col.get(req.params.id);
         if (!result) {
             res.sendStatus(404);

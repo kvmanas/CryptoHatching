@@ -38,18 +38,68 @@ export default class UintMod {
     if (data[1] == "1") {
       StateAdd =
         hash(FAMILY).substr(0, 8) +
-        "01" +
-        hash(data[0].toString()).substr(0, 60);
+        "001" +
+        hash(data[0].toString()).substr(0, 59);
     } else {
       StateAdd =
         hash(FAMILY).substr(0, 8) +
-        "02" +
-        hash(data[0].toString()).substr(0, 60);
+        "002" +
+        hash(data[0].toString()).substr(0, 59);
     }
-    console.log(StateAdd);
     data.unshift("NewUnit");
     var payload = JSON.stringify(data);
     const payloadBytes = encoder.encode(payload);
+    console.log(payloadBytes);
+    return TransactionBuild(
+      this.publicKey,
+      this.signer,
+      payloadBytes,
+      [StateAdd],
+      [StateAdd]
+    );
+  }
+  EditUnit(data) {
+    let StateAdd;
+    if (data[1] == "1") {
+      StateAdd =
+        hash(FAMILY).substr(0, 8) +
+        "001" +
+        hash(data[0].toString()).substr(0, 59);
+    } else {
+      StateAdd =
+        hash(FAMILY).substr(0, 8) +
+        "002" +
+        hash(data[0].toString()).substr(0, 59);
+    }
+    data.unshift("EditUnit");
+    var payload = JSON.stringify(data);
+    const payloadBytes = encoder.encode(payload);
+    console.log(payloadBytes);
+    return TransactionBuild(
+      this.publicKey,
+      this.signer,
+      payloadBytes,
+      [StateAdd],
+      [StateAdd]
+    );
+  }
+  DelUnit(data) {
+    let StateAdd;
+    if (data[1] == "1") {
+      StateAdd =
+        hash(FAMILY).substr(0, 8) +
+        "001" +
+        hash(data[0].toString()).substr(0, 59);
+    } else {
+      StateAdd =
+        hash(FAMILY).substr(0, 8) +
+        "002" +
+        hash(data[0].toString()).substr(0, 59);
+    }
+    data.unshift("DelUnit");
+    var payload = JSON.stringify(data);
+    const payloadBytes = encoder.encode(payload);
+    console.log(payloadBytes);
     return TransactionBuild(
       this.publicKey,
       this.signer,
@@ -107,7 +157,7 @@ function TransactionBuild(PublicKey, Signer, payloadBytes, Input, Output) {
 async function _send_to_rest_api(batchListBytes) {
   try {
     //code here
-    var resp = await fetch("http://localhost:4000/api/batches", {
+    var resp = await fetch(REST_URL + "/batches", {
       method: "POST",
       headers: {
         "Content-Type": "application/octet-stream",

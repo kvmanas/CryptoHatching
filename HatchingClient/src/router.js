@@ -5,6 +5,7 @@ import Admin from "./views/Admin.vue";
 import Production from "@/components/Production.vue";
 import Barracks from "@/components/Barracks.vue";
 import NewUnit from "@/components/NewUnit.vue";
+import EditUnit from "@/components/EditUnit.vue";
 Vue.use(Router);
 
 export default new Router({
@@ -39,6 +40,12 @@ export default new Router({
           path: "/Admin",
           components: {
             admin: NewUnit
+          }
+        },
+        {
+          path: "/Admin/Edit",
+          components: {
+            admin: EditUnit
           }
         }
       ]

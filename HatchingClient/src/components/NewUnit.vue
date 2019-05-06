@@ -1,5 +1,5 @@
 <template>
-  <section class="section">
+  <section class="section" v-loading="isLoading">
     <div class="container">
       <div class="row d-flex justify-content-center">
         <div class="col-md-6">
@@ -292,6 +292,7 @@ export default {
   name: "NewUinit",
   data() {
     return {
+      isLoading: false,
       uploadedFiles: [],
       uploadError: null,
       currentStatus: null,
@@ -360,6 +361,7 @@ export default {
   methods: {
     async NewUnitForm(e) {
       e.preventDefault();
+      this.isLoading = true;
       var formdata;
       if (this.UnitType == "1") {
         formdata = [
@@ -382,23 +384,29 @@ export default {
         ];
       }
       var isEmpty = this.checkisnull(formdata);
+      var that = this;
       if (isEmpty) {
-        this.$swal({
-          type: "error",
-          title: "Oops...",
-          text: "All Fields Required!"
-        });
+        setTimeout(function() {
+          that.$swal({
+            type: "error",
+            title: "Oops...",
+            text: "All Fields Required!"
+          });
+          that.isLoading = false;
+        }, 3000);
       } else {
         const addunit = new UintMod(localStorage.PrvKey);
         let response = await addunit.NewUnit(formdata);
-        this.$swal({
-          type: "success",
-          title: "Success!!",
-          text: "Successfull"
-        });
+        console.log(response);
+        setTimeout(function() {
+          that.$swal({
+            type: "success",
+            title: "Success!!",
+            text: "Successfull"
+          });
+          that.isLoading = false;
+        }, 2000);
       }
-      //var asd = await addunit.Production(this.BaseRate);
-      //console.log(asd);
     },
     checkisnull(data) {
       for (var y in data) {
