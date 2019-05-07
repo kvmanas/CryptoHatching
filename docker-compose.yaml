@@ -39,6 +39,32 @@ services:
       - validator
     volumes:
       - ".:/Hatching"
+  oracle-processor:
+    container_name: oracle-processor
+    build:
+      context: .
+      dockerfile: ./OracleTP/DockerFile
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    depends_on:
+      - validator
+    volumes:
+      - ".:/Hatching"
+  client-processor:
+    container_name: client-processor
+    build:
+      context: .
+      dockerfile: ./ClientTP/DockerFile
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    depends_on:
+      - validator
+    volumes:
+      - ".:/Hatching"
 
   sawtooth-rest-api:
     container_name: rest-api

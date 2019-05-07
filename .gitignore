@@ -35,6 +35,8 @@ build/Release
 # Dependency directories
 StorageService/Uploads
 AdminsTP/node_modules/
+ClientTP/node_modules/
+OracleTP/node_modules/
 HatchingClient/node_modules/
 StorageService/node_modules/
 jspm_packages/
