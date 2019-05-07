@@ -1,0 +1,6 @@
+FROM node:8
+
+WORKDIR /Hatching/OracleServer
+
+
+CMD npm install && npm start

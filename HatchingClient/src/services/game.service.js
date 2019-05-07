@@ -8,14 +8,11 @@ const protobuf = require("sawtooth-sdk/protobuf");
 
 const REST_URL = "http://localhost:4000/api";
 
-const FAMILY = "AdminTP";
+const FAMILY = "ClientTP";
 const Version = "1.0";
 
 var encoder = new TextEncoder("utf8");
 var decoder = new TextDecoder("utf8");
-
-// const privateKeyHex =
-//   "83a6196603b547d02ba39f4b0dc6f6321d25bcc77e79f8877ccea30f19782e24";
 
 function hash(v) {
   //return hash
@@ -24,7 +21,7 @@ function hash(v) {
     .digest("hex");
 }
 
-export default class UintMod {
+export default class GameClient {
   constructor(privateKeyHex) {
     //create signer, public key and get address
     const context = createContext("secp256k1");
@@ -33,80 +30,11 @@ export default class UintMod {
     this.publicKey = this.signer.getPublicKey().asHex();
   }
 
-  NewUnit(data) {
-    let StateAdd;
-    if (data[1] == "1") {
-      StateAdd =
-        hash(FAMILY).substr(0, 8) +
-        "0011" +
-        hash(data[0].toString()).substr(0, 58);
-    } else {
-      StateAdd =
-        hash(FAMILY).substr(0, 8) +
-        "0022" +
-        hash(data[0].toString()).substr(0, 58);
-    }
-    data.unshift("NewUnit");
-    var payload = JSON.stringify(data);
+  ClaimGift() {
+    var time = Date.now();
+    var payload = JSON.stringify(["NewUser", time]);
     const payloadBytes = encoder.encode(payload);
-    console.log(payloadBytes);
-    return TransactionBuild(
-      this.publicKey,
-      this.signer,
-      payloadBytes,
-      [StateAdd],
-      [StateAdd]
-    );
-  }
-  EditUnit(data) {
-    let StateAdd;
-    if (data[1] == "1") {
-      StateAdd =
-        hash(FAMILY).substr(0, 8) +
-        "0011" +
-        hash(data[0].toString()).substr(0, 58);
-    } else {
-      StateAdd =
-        hash(FAMILY).substr(0, 8) +
-        "0022" +
-        hash(data[0].toString()).substr(0, 58);
-    }
-    data.unshift("EditUnit");
-    var payload = JSON.stringify(data);
-    const payloadBytes = encoder.encode(payload);
-    console.log(payloadBytes);
-    return TransactionBuild(
-      this.publicKey,
-      this.signer,
-      payloadBytes,
-      [StateAdd],
-      [StateAdd]
-    );
-  }
-  DelUnit(data) {
-    let StateAdd;
-    if (data[1] == "1") {
-      StateAdd =
-        hash(FAMILY).substr(0, 8) +
-        "0011" +
-        hash(data[0].toString()).substr(0, 58);
-    } else {
-      StateAdd =
-        hash(FAMILY).substr(0, 8) +
-        "0022" +
-        hash(data[0].toString()).substr(0, 58);
-    }
-    data.unshift("DelUnit");
-    var payload = JSON.stringify(data);
-    const payloadBytes = encoder.encode(payload);
-    console.log(payloadBytes);
-    return TransactionBuild(
-      this.publicKey,
-      this.signer,
-      payloadBytes,
-      [StateAdd],
-      [StateAdd]
-    );
+    return TransactionBuild(this.publicKey, this.signer, payloadBytes, [], []);
   }
 }
 

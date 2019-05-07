@@ -12,7 +12,7 @@ const { createHash } = require("crypto");
 //require encoder and decoder
 const { TextEncoder, TextDecoder } = require("text-encoding/lib/encoding");
 
-const FAMILY = "AdminTP";
+const FAMILY = "ClientTP";
 const Version = "1.0";
 const NAMESPACE = hash(FAMILY).substr(0, 8);
 
@@ -53,41 +53,10 @@ class AdminTPHandler extends TransactionHandler {
       let header = transactionProcessRequest.header;
       this.publicKey = header.signerPublicKey;
       var msg = JSON.parse(decoder.decode(transactionProcessRequest.payload));
-      let Operation = msg[0];
-      if (Operation === "NewUnit") {
-        let UnitType = msg[2];
-        if (UnitType == "1") {
-          this.address =
-            NAMESPACE + "001" + hash(msg[1].toString()).substr(0, 59);
-        } else {
-          this.address =
-            NAMESPACE + "002" + hash(msg[1].toString()).substr(0, 59);
-        }
-        msg.shift();
-        let data = JSON.stringify(msg);
-        return _setEntry(context, this.address, data);
-      } else if (Operation === "EditUnit") {
-        let UnitType = msg[2];
-        if (UnitType == "1") {
-          this.address =
-            NAMESPACE + "001" + hash(msg[1].toString()).substr(0, 59);
-        } else {
-          this.address =
-            NAMESPACE + "002" + hash(msg[1].toString()).substr(0, 59);
-        }
-        msg.shift();
-        let data = JSON.stringify(msg);
-        return _setEntry(context, this.address, data);
-      } else if (Operation === "DelUnit") {
-        let UnitType = msg[2];
-        if (UnitType == "1") {
-          this.address =
-            NAMESPACE + "001" + hash(msg[1].toString()).substr(0, 59);
-        } else {
-          this.address =
-            NAMESPACE + "002" + hash(msg[1].toString()).substr(0, 59);
-        }
-        return _delEntry(context, this.address);
+      if (msg[0] === "NewUser") {
+        return context.addEvent("ClientTP/NewUser", [
+          ["pubkey", this.publicKey]
+        ]);
       } else {
         _toInternalError("Invalid Type");
       }

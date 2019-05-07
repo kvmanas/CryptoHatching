@@ -2,16 +2,20 @@
   <div class="unitmodel col-lg-4 col-md-6 ml-auto mr-auto">
     <div class="card card-coin card-plain">
       <div class="card-header">
-        <img src="/assets/img/mike.jpg" class="img-center img-fluid rounded-circle">
-        <h4 class="title">{{Uname}}</h4>
+        <img
+          :src="UnitData[1]"
+          width="150"
+          height="150"
+          class="img-center img-fluid rounded-circle"
+        >
+        <h4 class="title">{{UnitData[4]}}</h4>
         <p class="card-category unitpower">3/99</p>
-        <p class="card-category unitpower">Producing 30 eggs/s</p>
       </div>
       <div class="card-body">
         <div class="container buyunit">
           <h4 class="unitpower">
             <p>Makes: 40 eggs/s</p>
-            <p class="unitcost">Cost: 1000 eggs</p>
+            <p class="unitcost">Cost: {{UnitData[5]}} eggs</p>
           </h4>
           <div class="row">
             <div class="col-9">
@@ -19,9 +23,9 @@
                 <input type="text" value placeholder="Amount" class="form-control">
               </div>
             </div>
-            <div class="col-3">
+            <!-- <div class="col-3">
               <button class="btn maxbtn">max</button>
-            </div>
+            </div>-->
           </div>
           <button class="btn buybtn">Buy</button>
         </div>
@@ -36,7 +40,7 @@
               <div class="col-5">
                 <div>
                   <p class="card-title">+10% Production</p>
-                  <p class="card-category tupgrade">3/4</p>
+                  <p class="card-category tupgrade">3/3</p>
                 </div>
               </div>
               <div class="col-5">
@@ -79,7 +83,7 @@
 export default {
   name: "UnitModel",
   props: {
-    Uname: String
+    UnitData: Array
   }
 };
 </script>

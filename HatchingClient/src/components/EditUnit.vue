@@ -68,6 +68,14 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group">
+                  <label>Unit Base Price</label>
+                  <input v-model="UnitPrice" type="text" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
                   <label for="sel1">Select Unit Type:</label>
                   <select v-model="UnitType" class="form-control" id="sel1">
                     <option value="1">Production</option>
@@ -294,6 +302,7 @@ export default {
       BaseRate: null,
       UnitType: "1",
       UnitName: null,
+      UnitPrice: null,
       UnitId: null,
       BirdPower: {
         level1: {
@@ -349,15 +358,16 @@ export default {
       this.UnitId = UnitData[2];
       this.UnitType = UnitData[3];
       this.UnitName = UnitData[4];
+      this.UnitPrice = UnitData[5];
       if (UnitData[3] == "1") {
-        this.BaseRate = UnitData[5];
-        this.BirdPower = UnitData[6];
-        this.MaxLevel = UnitData[7];
-      } else {
-        this.BaseAttack = UnitData[5];
-        this.BaseDefence = UnitData[6];
-        this.PigPower = UnitData[7];
+        this.BaseRate = UnitData[6];
+        this.BirdPower = UnitData[7];
         this.MaxLevel = UnitData[8];
+      } else {
+        this.BaseAttack = UnitData[6];
+        this.BaseDefence = UnitData[7];
+        this.PigPower = UnitData[8];
+        this.MaxLevel = UnitData[9];
       }
     },
     async SubmitEdit() {
@@ -368,6 +378,7 @@ export default {
           this.UnitId,
           this.UnitType,
           this.UnitName,
+          this.UnitPrice,
           this.BaseRate,
           this.BirdPower,
           this.MaxLevel
@@ -377,6 +388,7 @@ export default {
           this.UnitId,
           this.UnitType,
           this.UnitName,
+          this.UnitPrice,
           this.BaseAttack,
           this.BaseDefence,
           this.PigPower,

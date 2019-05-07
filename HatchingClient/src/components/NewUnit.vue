@@ -68,6 +68,14 @@
                 <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
+                      <label>Unit Base Price</label>
+                      <input v-model="UnitPrice" type="text" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
                       <label for="sel1">Select Unit Type:</label>
                       <select v-model="UnitType" class="form-control" id="sel1">
                         <option value="1">Production</option>
@@ -300,6 +308,7 @@ export default {
       BaseRate: null,
       UnitType: "1",
       UnitName: null,
+      UnitPrice: null,
       UnitId: null,
       BirdPower: {
         level1: {
@@ -368,6 +377,7 @@ export default {
           this.UnitId,
           this.UnitType,
           this.UnitName,
+          this.UnitPrice,
           this.BaseRate,
           this.BirdPower,
           this.MaxLevel
@@ -377,6 +387,7 @@ export default {
           this.UnitId,
           this.UnitType,
           this.UnitName,
+          this.UnitPrice,
           this.BaseAttack,
           this.BaseDefence,
           this.PigPower,

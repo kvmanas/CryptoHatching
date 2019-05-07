@@ -17,34 +17,31 @@
 /*this code specifies the Transaction Processor part.This code transfers the 
   transaction processing requests to a registered handler,the CookieJarHandler.*/
 
-
-'use strict'
+"use strict";
 //works in strict mode
-const {
-  TransactionProcessor
-} = require('sawtooth-sdk/processor')
+const { TransactionProcessor } = require("sawtooth-sdk/processor");
 //requires the module specified in ().
-const AdminTPHandler = require('./AdminTPHandler')
+const AdminTPHandler = require("./ClientTPHandler");
 // handler for cookie store
 //const CookieStoreHandler = require('./CookieStoreHandler');
 
 if (process.argv.length < 3) {
-  console.log('missing a validator address')
-  process.exit(1)
+  console.log("missing a validator address");
+  process.exit(1);
 }
 
-const address = process.argv[2]
+const address = process.argv[2];
 
-const transactionProcessor = new TransactionProcessor(address)
+const transactionProcessor = new TransactionProcessor(address);
 
-transactionProcessor.addHandler(new AdminTPHandler())
+transactionProcessor.addHandler(new AdminTPHandler());
 //transactionProcessor.addHandler(new CookieStoreHandler());
 /*addHandler adds the given handler to the transaction processor so
   it can receive transaction processing requests. All handlers must
   be added prior to starting the processor.
 */
 
-transactionProcessor.start()
+transactionProcessor.start();
 /* start connects the transaction processor to a validator and
    starts listening for requests and routing them to an appropriate
    handler.

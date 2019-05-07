@@ -1,12 +1,12 @@
 {
-  "name": "sawtooth-cookiejar-javascript-processor",
+  "name": "admintp",
   "version": "1.0.0",
-  "description": "A cookiejar transaction processor/family using sawtooth js sdk",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js tcp://validator:4004"
   },
-  "author": "Ashish K Mishra",
+  "author": "",
   "license": "Apache-2.0",
   "dependencies": {
     "protobufjs": "^6.7.3",

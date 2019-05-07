@@ -6,16 +6,17 @@ const { TextEncoder, TextDecoder } = require("text-encoding/lib/encoding");
 const { Secp256k1PrivateKey } = require("sawtooth-sdk/signing/secp256k1");
 const protobuf = require("sawtooth-sdk/protobuf");
 
-const REST_URL = "http://localhost:4000/api";
+const REST_URL = "http://rest-api:8008";
 
-const FAMILY = "AdminTP";
+const FAMILY = "OracleTP";
 const Version = "1.0";
 
 var encoder = new TextEncoder("utf8");
 var decoder = new TextDecoder("utf8");
 
-// const privateKeyHex =
-//   "83a6196603b547d02ba39f4b0dc6f6321d25bcc77e79f8877ccea30f19782e24";
+const OraclePrvKey =
+  "3faa9545b9a9888c18906e6d8f470acd0ac227a9435e8008043b3f05b231225a";
+//const OraclePubKey = "03476df45730e45b8fd1b5c8c2856bd25767840153d8aaa588b70b2bf744b94db8"
 
 function hash(v) {
   //return hash
@@ -24,82 +25,21 @@ function hash(v) {
     .digest("hex");
 }
 
-export default class UintMod {
-  constructor(privateKeyHex) {
+class OracleService {
+  constructor() {
     //create signer, public key and get address
     const context = createContext("secp256k1");
-    const secp256k1pk = Secp256k1PrivateKey.fromHex(privateKeyHex.trim());
+    const secp256k1pk = Secp256k1PrivateKey.fromHex(OraclePrvKey.trim());
     this.signer = new CryptoFactory(context).newSigner(secp256k1pk);
     this.publicKey = this.signer.getPublicKey().asHex();
   }
 
-  NewUnit(data) {
-    let StateAdd;
-    if (data[1] == "1") {
-      StateAdd =
-        hash(FAMILY).substr(0, 8) +
-        "0011" +
-        hash(data[0].toString()).substr(0, 58);
-    } else {
-      StateAdd =
-        hash(FAMILY).substr(0, 8) +
-        "0022" +
-        hash(data[0].toString()).substr(0, 58);
-    }
-    data.unshift("NewUnit");
-    var payload = JSON.stringify(data);
+  ClaimGift(data) {
+    let StateAdd =
+      hash(FAMILY).substr(0, 8) + "0011" + hash(data).substr(0, 58);
+    var time = Date.now();
+    var payload = JSON.stringify(["NewUser", data, time]);
     const payloadBytes = encoder.encode(payload);
-    console.log(payloadBytes);
-    return TransactionBuild(
-      this.publicKey,
-      this.signer,
-      payloadBytes,
-      [StateAdd],
-      [StateAdd]
-    );
-  }
-  EditUnit(data) {
-    let StateAdd;
-    if (data[1] == "1") {
-      StateAdd =
-        hash(FAMILY).substr(0, 8) +
-        "0011" +
-        hash(data[0].toString()).substr(0, 58);
-    } else {
-      StateAdd =
-        hash(FAMILY).substr(0, 8) +
-        "0022" +
-        hash(data[0].toString()).substr(0, 58);
-    }
-    data.unshift("EditUnit");
-    var payload = JSON.stringify(data);
-    const payloadBytes = encoder.encode(payload);
-    console.log(payloadBytes);
-    return TransactionBuild(
-      this.publicKey,
-      this.signer,
-      payloadBytes,
-      [StateAdd],
-      [StateAdd]
-    );
-  }
-  DelUnit(data) {
-    let StateAdd;
-    if (data[1] == "1") {
-      StateAdd =
-        hash(FAMILY).substr(0, 8) +
-        "0011" +
-        hash(data[0].toString()).substr(0, 58);
-    } else {
-      StateAdd =
-        hash(FAMILY).substr(0, 8) +
-        "0022" +
-        hash(data[0].toString()).substr(0, 58);
-    }
-    data.unshift("DelUnit");
-    var payload = JSON.stringify(data);
-    const payloadBytes = encoder.encode(payload);
-    console.log(payloadBytes);
     return TransactionBuild(
       this.publicKey,
       this.signer,
@@ -170,3 +110,4 @@ async function _send_to_rest_api(batchListBytes) {
     return error;
   }
 }
+module.exports.OracleService = OracleService;

@@ -19,10 +19,21 @@ services:
     build:
       context: .
       dockerfile: ./StorageService/DockerFile
+    depends_on:
+      - validator
+    volumes:
+      - ".:/Hatching"
+  oracle-server:
+    container_name: oracle-server
+    build:
+      context: .
+      dockerfile: ./OracleServer/DockerFile
     expose:
       - 4010
     ports:
       - 4010:4010
+    depends_on:
+      - validator
     volumes:
       - ".:/Hatching"
 
