@@ -4,23 +4,13 @@
     <v-card height="50px">
       <v-bottom-nav :active.sync="bottomNav" :color="color" :value="true" absolute dark shift>
         <v-btn dark to="/Admin">
-          <span>Shop</span>
-          <i aria-hidden="true" class="v-icon theme--dark fas fa-store"></i>
+          <span>New Unit</span>
+          <i aria-hidden="true" class="v-icon theme--dark fas fa-plus-square"></i>
         </v-btn>
 
         <v-btn dark to="/Admin/Edit">
-          <span>Production</span>
-          <i aria-hidden="true" class="v-icon theme--dark fab fa-earlybirds"></i>
-        </v-btn>
-
-        <v-btn dark>
-          <span>Barracks</span>
-          <i aria-hidden="true" class="v-icon theme--dark fas fa-paw"></i>
-        </v-btn>
-
-        <v-btn dark>
-          <span>Battle</span>
-          <i aria-hidden="true" class="v-icon theme--dark fas fa-bolt"></i>
+          <span>Edit Unit</span>
+          <i aria-hidden="true" class="v-icon theme--dark fas fa-edit"></i>
         </v-btn>
       </v-bottom-nav>
     </v-card>

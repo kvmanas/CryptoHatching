@@ -6,6 +6,7 @@ import Production from "@/components/Production.vue";
 import Barracks from "@/components/Barracks.vue";
 import NewUnit from "@/components/NewUnit.vue";
 import EditUnit from "@/components/EditUnit.vue";
+import Arena from "@/components/Arena.vue";
 Vue.use(Router);
 
 export default new Router({
@@ -26,6 +27,12 @@ export default new Router({
           path: "/Barracks",
           components: {
             game: Barracks
+          }
+        },
+        {
+          path: "/Arena",
+          components: {
+            game: Arena
           }
         }
       ]

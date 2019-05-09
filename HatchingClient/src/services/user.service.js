@@ -27,6 +27,25 @@ function GetUnits() {
     })
     .catch(error => []);
 }
+function UserList() {
+  const url = `${BASE_URL}/state?address=${hash(Oracle_FAMILY).substr(
+    0,
+    8
+  )}0011`;
+  return axios
+    .get(url)
+    .then(x => {
+      console.log(x);
+      try {
+        return x.data.data.map(y => {
+          return JSON.parse(new Buffer(y.data, "base64").toString())[0];
+        });
+      } catch {
+        return [];
+      }
+    })
+    .catch(error => []);
+}
 function GetPrdUnits() {
   const url = `${BASE_URL}/state?address=${hash(Admin_FAMILY).substr(
     0,
@@ -69,7 +88,6 @@ function GetUserDt(PubKey) {
   return axios
     .get(url)
     .then(x => {
-      console.log(x);
       try {
         return JSON.parse(
           new Buffer(x.data.data[0].data, "base64").toString()
@@ -80,5 +98,17 @@ function GetUserDt(PubKey) {
     })
     .catch(error => []);
 }
+function GetReceipt(url) {
+  return axios
+    .get(url)
+    .then(x => {
+      try {
+        return new Buffer(x.data.data[0].data[0], "base64").toString();
+      } catch {
+        return [];
+      }
+    })
+    .catch(error => []);
+}
 
-export { GetUnits, GetUserDt, GetPrdUnits, GetBrkUnits };
+export { GetUnits, GetUserDt, GetPrdUnits, GetBrkUnits, UserList, GetReceipt };

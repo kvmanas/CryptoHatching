@@ -69,6 +69,10 @@ class AdminTPHandler extends TransactionHandler {
         msg[0] = this.publicKey;
         var newdata = JSON.stringify(msg);
         return context.addEvent("ClientTP/BuyMax", [["data", newdata]]);
+      } else if (msg[0] === "AttackUser") {
+        msg[0] = this.publicKey;
+        var newdata = JSON.stringify(msg);
+        return context.addEvent("ClientTP/AttackUser", [["data", newdata]]);
       } else {
         _toInternalError("Invalid Type");
       }

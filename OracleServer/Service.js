@@ -99,6 +99,25 @@ class OracleService {
       [StateAdd]
     );
   }
+  AttackUser(data) {
+    let StateAdd1 =
+      hash(FAMILY).substr(0, 8) + "0011" + hash(data[0]).substr(0, 58);
+    let StateAdd2 =
+      hash(FAMILY).substr(0, 8) + "0011" + hash(data[1]).substr(0, 58);
+    data.pop();
+    var time = Date.now();
+    data.push(time);
+    data.unshift("AttackUser");
+    var payload = JSON.stringify(data);
+    const payloadBytes = encoder.encode(payload);
+    return TransactionBuild(
+      this.publicKey,
+      this.signer,
+      payloadBytes,
+      [StateAdd1, StateAdd2],
+      [StateAdd1, StateAdd2]
+    );
+  }
 }
 
 function TransactionBuild(PublicKey, Signer, payloadBytes, Input, Output) {

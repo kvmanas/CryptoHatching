@@ -3,24 +3,24 @@
     <v-card height="50px">
       <v-bottom-nav :active.sync="bottomNav" :color="color" :value="true" absolute dark shift>
         <v-btn dark to="/">
-          <span>Shop</span>
-          <i aria-hidden="true" class="v-icon theme--dark fas fa-store"></i>
-        </v-btn>
-
-        <v-btn dark to="/Barracks">
           <span>Production</span>
           <i aria-hidden="true" class="v-icon theme--dark fab fa-earlybirds"></i>
         </v-btn>
 
-        <v-btn dark to="/test">
+        <v-btn dark to="/Barracks">
           <span>Barracks</span>
           <i aria-hidden="true" class="v-icon theme--dark fas fa-paw"></i>
         </v-btn>
 
-        <v-btn dark>
-          <span>Battle</span>
+        <v-btn dark to="/Arena">
+          <span>Arena</span>
           <i aria-hidden="true" class="v-icon theme--dark fas fa-bolt"></i>
         </v-btn>
+
+        <!-- <v-btn dark>
+          <span>Battle log</span>
+          <i aria-hidden="true" class="v-icon theme--dark fas fa-store"></i>
+        </v-btn>-->
       </v-bottom-nav>
     </v-card>
     <router-view name="game"/>

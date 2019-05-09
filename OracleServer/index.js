@@ -40,6 +40,8 @@ function getEventsMessage(message) {
       Oracleservice.BuyPower(JSON.parse(event.attributes[0].value));
     } else if (event.eventType == "ClientTP/BuyMax") {
       Oracleservice.BuyMax(JSON.parse(event.attributes[0].value));
+    } else if (event.eventType == "ClientTP/AttackUser") {
+      Oracleservice.AttackUser(JSON.parse(event.attributes[0].value));
     }
   });
 }
@@ -57,8 +59,11 @@ function EventSubscribe(Url) {
   const BuyMax = EventSubscription.create({
     eventType: "ClientTP/BuyMax"
   });
+  const AttackUser = EventSubscription.create({
+    eventType: "ClientTP/AttackUser"
+  });
   const subsc_request = ClientEventsSubscribeRequest.encode({
-    subscriptions: [NewUser, BuyUnit, BuyPower, BuyMax]
+    subscriptions: [NewUser, BuyUnit, BuyPower, BuyMax, AttackUser]
   }).finish();
 
   myStream.connect(() => {

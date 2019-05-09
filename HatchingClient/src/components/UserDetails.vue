@@ -96,7 +96,8 @@ export default {
             var seconds = Math.floor(
               (Date.now() - that.UserData.LastActivity) / 1000
             );
-            that.EggBalance = seconds * that.UserData.Production;
+            that.EggBalance =
+              that.UserData.EggBalance + seconds * that.UserData.Production;
           }, 1000);
         }
       }

@@ -63,6 +63,15 @@ export default class GameClient {
     console.log(payloadBytes);
     return TransactionBuild(this.publicKey, this.signer, payloadBytes, [], []);
   }
+  AttackUser(data) {
+    var time = Date.now();
+    data.unshift("AttackUser");
+    data.push(time);
+    var payload = JSON.stringify(data);
+    const payloadBytes = encoder.encode(payload);
+    console.log(payloadBytes);
+    return TransactionBuild(this.publicKey, this.signer, payloadBytes, [], []);
+  }
 }
 
 function TransactionBuild(PublicKey, Signer, payloadBytes, Input, Output) {

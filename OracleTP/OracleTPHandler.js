@@ -40,8 +40,15 @@ function _setEntry(context, address, stateValue) {
   };
   return context.setState(entries);
 }
-function _delEntry(context, address) {
-  return context.deleteState([address]);
+function _setEntries(context, address, stateValue) {
+  //code here
+  let msgBytes1 = encoder.encode(stateValue[0]);
+  let msgBytes2 = encoder.encode(stateValue[1]);
+  let entries = {
+    [address[0]]: msgBytes1,
+    [address[1]]: msgBytes2
+  };
+  return context.setState(entries);
 }
 
 class AdminTPHandler extends TransactionHandler {
@@ -50,6 +57,7 @@ class AdminTPHandler extends TransactionHandler {
   }
   apply(transactionProcessRequest, context) {
     try {
+      console.log("Inside Apply:", transactionProcessRequest);
       let header = transactionProcessRequest.header;
       this.publicKey = header.signerPublicKey;
       var msg = JSON.parse(decoder.decode(transactionProcessRequest.payload));
@@ -66,7 +74,11 @@ class AdminTPHandler extends TransactionHandler {
                 EggBalance: 0,
                 LastActivity: msg[2],
                 Birds: {},
-                Piggs: {}
+                Piggs: {},
+                PubKey: msg[1],
+                LastAttacked: msg[2],
+                NoAttacks: 0,
+                Attacklogs: {}
               }
             ];
             return _setEntry(context, this.address, JSON.stringify(UserDt));
@@ -301,6 +313,62 @@ class AdminTPHandler extends TransactionHandler {
             //   "Exsting Data",
             //   JSON.parse(new Buffer(data[this.address], "base64").toString())
             // );
+            _toInternalError("Invalid Type");
+          }
+        });
+      } else if (Operation === "AttackUser") {
+        this.address1 = NAMESPACE + "0011" + hash(msg[1]).substr(0, 58);
+        this.address2 = NAMESPACE + "0011" + hash(msg[2]).substr(0, 58);
+        return context.getState([this.address1, this.address2]).then(data => {
+          if (
+            data[this.address1].length !== 0 ||
+            data[this.address2].length !== 0
+          ) {
+            console.log("Inside If in AttackUser");
+            let UserDt1 = JSON.parse(
+              new Buffer(data[this.address1], "base64").toString()
+            )[0];
+            let UserDt2 = JSON.parse(
+              new Buffer(data[this.address2], "base64").toString()
+            )[0];
+            var Status, GotEgg, EggBalance1, EggBalance2;
+            var seconds1 = Math.floor((msg[3] - UserDt1.LastActivity) / 1000);
+            EggBalance1 = UserDt1.EggBalance + seconds1 * UserDt1.Production;
+            var seconds2 = Math.floor((msg[3] - UserDt2.LastActivity) / 1000);
+            EggBalance2 = UserDt2.EggBalance + seconds2 * UserDt2.Production;
+            if (UserDt1.Attack >= UserDt2.Defence) {
+              if (EggBalance2 >= UserDt1.Attack) {
+                EggBalance2 = EggBalance2 - UserDt1.Attack;
+                EggBalance1 = EggBalance1 + UserDt1.Attack;
+                GotEgg = UserDt1.Attack;
+              } else {
+                EggBalance1 = EggBalance1 + EggBalance2;
+                GotEgg = EggBalance2;
+                EggBalance2 = 0;
+              }
+              Status = "Attack Successful Enemy Injured, You Got ";
+            } else {
+              GotEgg = 0;
+              Status = "Attack Unsuccessful Enemy Defended, You Got ";
+            }
+            Status = Status + GotEgg + " Eggs";
+            console.log("Status :", Status);
+            UserDt1.EggBalance = EggBalance1;
+            UserDt2.EggBalance = EggBalance2;
+            UserDt1.LastActivity = msg[3];
+            UserDt2.LastActivity = msg[3];
+            UserDt1.LastAttacked = msg[3];
+            UserDt2.LastAttacked = msg[3];
+            UserDt1.NoAttacks = UserDt1.NoAttacks + 1;
+            var TransactioID = transactionProcessRequest.signature;
+            UserDt1.Attacklogs[UserDt1.NoAttacks] = TransactioID;
+            context.addReceiptData(Buffer.from(Status, "utf8"));
+            return _setEntries(
+              context,
+              [this.address1, this.address2],
+              [JSON.stringify([UserDt1]), JSON.stringify([UserDt2])]
+            );
+          } else {
             _toInternalError("Invalid Type");
           }
         });
