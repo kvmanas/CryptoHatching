@@ -40,7 +40,7 @@
               </div>
               <div class="col-5">
                 <div>
-                  <p class="card-title" v-if="isPowerMax">+{{PowerRate}} Production</p>
+                  <p class="card-title" v-if="isPowerMax">+{{PowerRate}} Attack / Defence</p>
                   <p class="card-category tupgrade">{{Powerlevel}}/3</p>
                 </div>
               </div>

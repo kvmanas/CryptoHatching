@@ -3,46 +3,16 @@
     <div class="container">
       <div class="row">
         <div class="col-md-3">
-          <h1 class="title">BLK•</h1>
+          <h1 class="title">Crypto•Hatching</h1>
         </div>
-        <div class="col-md-3">
-          <ul class="nav">
-            <li class="nav-item">
-              <a href="./index.html" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item">
-              <a href="./examples/landing-page.html" class="nav-link">Landing</a>
-            </li>
-            <li class="nav-item">
-              <a href="./examples/register-page.html" class="nav-link">Register</a>
-            </li>
-            <li class="nav-item">
-              <a href="./examples/profile-page.html" class="nav-link">Profile</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <ul class="nav">
-            <li class="nav-item">
-              <a href="https://creative-tim.com/contact-us" class="nav-link">Contact Us</a>
-            </li>
-            <li class="nav-item">
-              <a href="https://creative-tim.com/about-us" class="nav-link">About Us</a>
-            </li>
-            <li class="nav-item">
-              <a href="https://creative-tim.com/blog" class="nav-link">Blog</a>
-            </li>
-            <li class="nav-item">
-              <a href="https://opensource.org/licenses/MIT" class="nav-link">License</a>
-            </li>
-          </ul>
-        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-3"></div>
         <div class="col-md-3">
           <h3 class="title">Follow us:</h3>
           <div class="btn-wrapper profile">
             <a
               target="_blank"
-              href="https://twitter.com/creativetim"
+              href="#"
               class="btn btn-icon btn-neutral btn-round btn-simple"
               data-toggle="tooltip"
               data-original-title="Follow us"
@@ -51,7 +21,7 @@
             </a>
             <a
               target="_blank"
-              href="https://www.facebook.com/creativetim"
+              href="#"
               class="btn btn-icon btn-neutral btn-round btn-simple"
               data-toggle="tooltip"
               data-original-title="Like us"
@@ -60,7 +30,7 @@
             </a>
             <a
               target="_blank"
-              href="https://dribbble.com/creativetim"
+              href="#"
               class="btn btn-icon btn-neutral btn-round btn-simple"
               data-toggle="tooltip"
               data-original-title="Follow us"
