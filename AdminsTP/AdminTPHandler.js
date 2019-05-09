@@ -66,6 +66,28 @@ class AdminTPHandler extends TransactionHandler {
         msg.shift();
         let data = JSON.stringify(msg);
         return _setEntry(context, this.address, data);
+      } else if (Operation === "EditUnit") {
+        let UnitType = msg[2];
+        if (UnitType == "1") {
+          this.address =
+            NAMESPACE + "0011" + hash(msg[1].toString()).substr(0, 58);
+        } else {
+          this.address =
+            NAMESPACE + "0022" + hash(msg[1].toString()).substr(0, 58);
+        }
+        msg.shift();
+        let data = JSON.stringify(msg);
+        return _setEntry(context, this.address, data);
+      } else if (Operation === "DelUnit") {
+        let UnitType = msg[2];
+        if (UnitType == "1") {
+          this.address =
+            NAMESPACE + "0011" + hash(msg[1].toString()).substr(0, 58);
+        } else {
+          this.address =
+            NAMESPACE + "0022" + hash(msg[1].toString()).substr(0, 58);
+        }
+        return _delEntry(context, this.address);
       } else {
         _toInternalError("Invalid Type");
       }

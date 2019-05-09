@@ -48,6 +48,57 @@ class OracleService {
       [StateAdd]
     );
   }
+  BuyUnit(data) {
+    let StateAdd =
+      hash(FAMILY).substr(0, 8) + "0011" + hash(data[0]).substr(0, 58);
+    data.pop();
+    var time = Date.now();
+    data.push(time);
+    data.unshift("BuyUnit");
+    var payload = JSON.stringify(data);
+    const payloadBytes = encoder.encode(payload);
+    return TransactionBuild(
+      this.publicKey,
+      this.signer,
+      payloadBytes,
+      [StateAdd],
+      [StateAdd]
+    );
+  }
+  BuyPower(data) {
+    let StateAdd =
+      hash(FAMILY).substr(0, 8) + "0011" + hash(data[0]).substr(0, 58);
+    data.pop();
+    var time = Date.now();
+    data.push(time);
+    data.unshift("BuyPower");
+    var payload = JSON.stringify(data);
+    const payloadBytes = encoder.encode(payload);
+    return TransactionBuild(
+      this.publicKey,
+      this.signer,
+      payloadBytes,
+      [StateAdd],
+      [StateAdd]
+    );
+  }
+  BuyMax(data) {
+    let StateAdd =
+      hash(FAMILY).substr(0, 8) + "0011" + hash(data[0]).substr(0, 58);
+    data.pop();
+    var time = Date.now();
+    data.push(time);
+    data.unshift("BuyMax");
+    var payload = JSON.stringify(data);
+    const payloadBytes = encoder.encode(payload);
+    return TransactionBuild(
+      this.publicKey,
+      this.signer,
+      payloadBytes,
+      [StateAdd],
+      [StateAdd]
+    );
+  }
 }
 
 function TransactionBuild(PublicKey, Signer, payloadBytes, Input, Output) {

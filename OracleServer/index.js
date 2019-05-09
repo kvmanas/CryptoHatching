@@ -30,27 +30,38 @@ function checkStatus(response) {
 
 function getEventsMessage(message) {
   // Write your event handling code here
-  console.log("EVENTS....................");
   let eventlist = EventList.decode(message.content).events;
   eventlist.map(event => {
     if (event.eventType == "ClientTP/NewUser") {
       Oracleservice.ClaimGift(event.attributes[0].value);
+    } else if (event.eventType == "ClientTP/BuyUnit") {
+      Oracleservice.BuyUnit(JSON.parse(event.attributes[0].value));
+    } else if (event.eventType == "ClientTP/BuyPower") {
+      Oracleservice.BuyPower(JSON.parse(event.attributes[0].value));
+    } else if (event.eventType == "ClientTP/BuyMax") {
+      Oracleservice.BuyMax(JSON.parse(event.attributes[0].value));
     }
   });
 }
 
 function EventSubscribe(Url) {
-  console.log("SUBSC !!!!!!!!!!!!!!!!!!!!!!!!!");
-
   const NewUser = EventSubscription.create({
     eventType: "ClientTP/NewUser"
   });
+  const BuyUnit = EventSubscription.create({
+    eventType: "ClientTP/BuyUnit"
+  });
+  const BuyPower = EventSubscription.create({
+    eventType: "ClientTP/BuyPower"
+  });
+  const BuyMax = EventSubscription.create({
+    eventType: "ClientTP/BuyMax"
+  });
   const subsc_request = ClientEventsSubscribeRequest.encode({
-    subscriptions: [NewUser]
+    subscriptions: [NewUser, BuyUnit, BuyPower, BuyMax]
   }).finish();
 
   myStream.connect(() => {
-    console.log("CONNECTIING TO VALIDATOR ");
     myStream
       .send(Message.MessageType.CLIENT_EVENTS_SUBSCRIBE_REQUEST, subsc_request)
       .then(response => {

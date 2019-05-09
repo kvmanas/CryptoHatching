@@ -1,17 +1,23 @@
 <template>
   <div class="row container">
-    <UnitModel v-for="(item, index) in PrdUnits" :key="item[0]" :UnitData="PrdUnits[index]"/>
+    <PrdUnitModel
+      v-for="(item, index) in PrdUnits"
+      :key="item[0]"
+      :UnitData="PrdUnits[index]"
+      :UserData="UserData.Birds"
+      :EggBalance="EggBalance"
+    />
   </div>
 </template>
 <script>
-import UnitModel from "@/components/UnitModel.vue";
+import PrdUnitModel from "@/components/PrdUnitModel.vue";
 import { GetUserDt, GetPrdUnits } from "@/services/user.service";
 import GameClient from "@/services/game.service";
 
 export default {
   name: "Production",
   components: {
-    UnitModel
+    PrdUnitModel
   },
   data() {
     return {
@@ -25,10 +31,11 @@ export default {
         Birds: {},
         Piggs: {}
       },
-      isLoading: false
+      isLoading: false,
+      EggBalance: 0
     };
   },
-  created() {
+  async created() {
     this.PrdUnits = await GetPrdUnits();
     if (localStorage.PrvKey && localStorage.PubKey) {
       this.UserLogged(true);
@@ -43,14 +50,15 @@ export default {
         this.PubKey = localStorage.PubKey;
         this.UserData = await GetUserDt(this.PubKey);
         if (this.UserData.length === 0) {
-          $("#newuser").modal("show");
+          // $("#newuser").modal("show");
         } else {
           var that = this;
           var timerID = setInterval(function() {
             var seconds = Math.floor(
               (Date.now() - that.UserData.LastActivity) / 1000
             );
-            that.EggBalance = seconds * that.UserData.Production;
+            that.EggBalance =
+              that.UserData.EggBalance + seconds * that.UserData.Production;
           }, 1000);
         }
       }

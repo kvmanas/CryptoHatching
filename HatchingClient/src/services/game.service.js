@@ -36,6 +36,33 @@ export default class GameClient {
     const payloadBytes = encoder.encode(payload);
     return TransactionBuild(this.publicKey, this.signer, payloadBytes, [], []);
   }
+  BuyUnit(data) {
+    var time = Date.now();
+    data.unshift("BuyUnit");
+    data.push(time);
+    var payload = JSON.stringify(data);
+    const payloadBytes = encoder.encode(payload);
+    console.log(payloadBytes);
+    return TransactionBuild(this.publicKey, this.signer, payloadBytes, [], []);
+  }
+  BuyPower(data) {
+    var time = Date.now();
+    data.unshift("BuyPower");
+    data.push(time);
+    var payload = JSON.stringify(data);
+    const payloadBytes = encoder.encode(payload);
+    console.log(payloadBytes);
+    return TransactionBuild(this.publicKey, this.signer, payloadBytes, [], []);
+  }
+  BuyMax(data) {
+    var time = Date.now();
+    data.unshift("BuyMax");
+    data.push(time);
+    var payload = JSON.stringify(data);
+    const payloadBytes = encoder.encode(payload);
+    console.log(payloadBytes);
+    return TransactionBuild(this.publicKey, this.signer, payloadBytes, [], []);
+  }
 }
 
 function TransactionBuild(PublicKey, Signer, payloadBytes, Input, Output) {

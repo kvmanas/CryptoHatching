@@ -101,15 +101,15 @@
                   <div class="col-md-8">
                     <div class="form-group">
                       <label>Level 1</label>
-                      <input v-model="BirdPower.level1.rate" type="text" class="form-control">
+                      <input v-model="BirdPower[1].rate" type="text" class="form-control">
                     </div>
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
                       <label>unit</label>
-                      <select v-model="BirdPower.level1.unit" class="form-control">
-                        <option value="1">%</option>
-                        <option value="2">+</option>
+                      <select v-model="BirdPower[1].unit" class="form-control">
+                        <option value="1">+</option>
+                        <!-- <option value="2">+</option> -->
                       </select>
                     </div>
                   </div>
@@ -118,15 +118,15 @@
                   <div class="col-md-8">
                     <div class="form-group">
                       <label>Level 2</label>
-                      <input v-model="BirdPower.level2.rate" type="text" class="form-control">
+                      <input v-model="BirdPower[2].rate" type="text" class="form-control">
                     </div>
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
                       <label>unit</label>
-                      <select v-model="BirdPower.level2.unit" class="form-control">
-                        <option value="1">%</option>
-                        <option value="2">+</option>
+                      <select v-model="BirdPower[2].unit" class="form-control">
+                        <option value="1">+</option>
+                        <!-- <option value="2">+</option> -->
                       </select>
                     </div>
                   </div>
@@ -135,15 +135,15 @@
                   <div class="col-md-8">
                     <div class="form-group">
                       <label>Level 3</label>
-                      <input v-model="BirdPower.level3.rate" type="text" class="form-control">
+                      <input v-model="BirdPower[3].rate" type="text" class="form-control">
                     </div>
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
                       <label>unit</label>
-                      <select v-model="BirdPower.level3.unit" class="form-control">
-                        <option value="1">%</option>
-                        <option value="2">+</option>
+                      <select v-model="BirdPower[3].unit" class="form-control">
+                        <option value="1">+</option>
+                        <!-- <option value="2">+</option> -->
                       </select>
                     </div>
                   </div>
@@ -173,83 +173,83 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label>Level 1</label>
-                      <input v-model="PigPower.level1.rate" type="text" class="form-control">
+                      <input v-model="PigPower[1].rate" type="text" class="form-control">
                     </div>
                   </div>
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>unit</label>
-                      <select v-model="PigPower.level1.unit" class="form-control">
-                        <option value="1">%</option>
-                        <option value="2">+</option>
+                      <select v-model="PigPower[1].unit" class="form-control">
+                        <option value="1">+</option>
+                        <!-- <option value="2">+</option> -->
                       </select>
                     </div>
                   </div>
-                  <div class="col-md-3">
+                  <!-- <div class="col-md-3">
                     <div class="form-group">
                       <label>Type</label>
-                      <select v-model="PigPower.level1.type" class="form-control">
+                      <select v-model="PigPower[1].type" class="form-control">
                         <option value="1">Attack</option>
                         <option value="2">Defence</option>
                       </select>
                     </div>
-                  </div>
+                  </div>-->
                 </div>
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
                       <label>Level 2</label>
-                      <input v-model="PigPower.level2.rate" type="text" class="form-control">
+                      <input v-model="PigPower[2].rate" type="text" class="form-control">
                     </div>
                   </div>
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>unit</label>
-                      <select v-model="PigPower.level2.unit" class="form-control">
-                        <option value="1">%</option>
-                        <option value="2">+</option>
+                      <select v-model="PigPower[2].unit" class="form-control">
+                        <option value="1">+</option>
+                        <!-- <option value="2">+</option> -->
                       </select>
                     </div>
                   </div>
-                  <div class="col-md-3">
+                  <!-- <div class="col-md-3">
                     <div class="form-group">
                       <label>Type</label>
-                      <select v-model="PigPower.level2.type" class="form-control">
+                      <select v-model="PigPower[2].type" class="form-control">
                         <option value="1">Attack</option>
                         <option value="2">Defence</option>
                       </select>
                     </div>
-                  </div>
+                  </div>-->
                 </div>
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
                       <label>Level 3</label>
-                      <input v-model="PigPower.level3.rate" type="text" class="form-control">
+                      <input v-model="PigPower[3].rate" type="text" class="form-control">
                     </div>
                   </div>
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>unit</label>
-                      <select v-model="PigPower.level3.unit" class="form-control">
-                        <option value="1">%</option>
-                        <option value="2">+</option>
+                      <select v-model="PigPower[3].unit" class="form-control">
+                        <option value="1">+</option>
+                        <!-- <option value="2">+</option> -->
                       </select>
                     </div>
                   </div>
-                  <div class="col-md-3">
+                  <!-- <div class="col-md-3">
                     <div class="form-group">
                       <label>Type</label>
-                      <select v-model="PigPower.level3.type" class="form-control">
+                      <select v-model="PigPower[3].type" class="form-control">
                         <option value="1">Attack</option>
                         <option value="2">Defence</option>
                       </select>
                     </div>
-                  </div>
+                  </div>-->
                 </div>
               </div>
             </div>
-            <div class="container levelup">
+            <!-- <div class="container levelup">
               <h4 class="utitle">
                 <p>Max Unit</p>
               </h4>
@@ -257,7 +257,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label>Level 1</label>
-                    <input v-model="MaxLevel.level1" type="text" class="form-control">
+                    <input v-model="MaxLevel[1]" type="text" class="form-control">
                   </div>
                 </div>
               </div>
@@ -265,7 +265,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label>Level 2</label>
-                    <input v-model="MaxLevel.level2" type="text" class="form-control">
+                    <input v-model="MaxLevel[2]" type="text" class="form-control">
                   </div>
                 </div>
               </div>
@@ -273,11 +273,11 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label>Level 3</label>
-                    <input v-model="MaxLevel.level3" type="text" class="form-control">
+                    <input v-model="MaxLevel[3]" type="text" class="form-control">
                   </div>
                 </div>
               </div>
-            </div>
+            </div>-->
             <button
               v-on:click="SubmitEdit"
               type="submit"
@@ -305,41 +305,38 @@ export default {
       UnitPrice: null,
       UnitId: null,
       BirdPower: {
-        level1: {
+        1: {
           rate: null,
           unit: "1"
         },
-        level2: {
+        2: {
           rate: null,
           unit: "1"
         },
-        level3: {
+        3: {
           rate: null,
           unit: "1"
         }
       },
       PigPower: {
-        level1: {
+        1: {
           rate: null,
-          unit: "1",
-          type: "1"
+          unit: "1"
         },
-        level2: {
+        2: {
           rate: null,
-          unit: "1",
-          type: "1"
+          unit: "1"
         },
-        level3: {
+        3: {
           rate: null,
-          unit: "1",
-          type: "1"
+          unit: "1"
         }
       },
-      MaxLevel: {
-        level1: null,
-        level2: null,
-        level3: null
-      },
+      // MaxLevel: {
+      //   1: 1,
+      //   2: 2,
+      //   3: 3
+      // },
       BaseAttack: null,
       BaseDefence: null
     };
@@ -362,12 +359,12 @@ export default {
       if (UnitData[3] == "1") {
         this.BaseRate = UnitData[6];
         this.BirdPower = UnitData[7];
-        this.MaxLevel = UnitData[8];
+        //this.MaxLevel = UnitData[8];
       } else {
         this.BaseAttack = UnitData[6];
         this.BaseDefence = UnitData[7];
         this.PigPower = UnitData[8];
-        this.MaxLevel = UnitData[9];
+        //this.MaxLevel = UnitData[9];
       }
     },
     async SubmitEdit() {
@@ -380,9 +377,10 @@ export default {
           this.UnitName,
           this.UnitPrice,
           this.BaseRate,
-          this.BirdPower,
-          this.MaxLevel
+          this.BirdPower
         ];
+        // ,
+        //   this.MaxLevel
       } else {
         formdata = [
           this.UnitId,
@@ -391,9 +389,10 @@ export default {
           this.UnitPrice,
           this.BaseAttack,
           this.BaseDefence,
-          this.PigPower,
-          this.MaxLevel
+          this.PigPower
         ];
+        // ,
+        //   this.MaxLevel
       }
       var isEmpty = this.checkisnull(formdata);
       var that = this;
