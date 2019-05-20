@@ -1,0 +1,111 @@
+version: "2.0"
+
+services:
+  game-client:
+    container_name: game-client
+    build:
+      context: .
+      dockerfile: ./HatchingClient/DockerFile
+    expose:
+      - 4000
+    ports:
+      - 4000:4000
+    volumes:
+      - ".:/Hatching"
+    depends_on:
+      - sawtooth-rest-api
+  game-storage:
+    container_name: game-storage
+    build:
+      context: .
+      dockerfile: ./StorageService/DockerFile
+    depends_on:
+      - validator
+    volumes:
+      - ".:/Hatching"
+
+  admins-processor:
+    container_name: admins-processor
+    build:
+      context: .
+      dockerfile: ./AdminsTP/DockerFile
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    depends_on:
+      - validator
+    volumes:
+      - ".:/Hatching"
+  oracle-processor:
+    container_name: oracle-processor
+    build:
+      context: .
+      dockerfile: ./OracleTP/DockerFile
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    depends_on:
+      - validator
+    volumes:
+      - ".:/Hatching"
+  client-processor:
+    container_name: client-processor
+    build:
+      context: .
+      dockerfile: ./ClientTP/DockerFile
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    depends_on:
+      - validator
+    volumes:
+      - ".:/Hatching"
+
+  sawtooth-rest-api:
+    container_name: rest-api
+    image: hyperledger/sawtooth-rest-api:1.0
+    expose:
+      - 8008
+    ports:
+      - "8008:8008"
+    depends_on:
+      - validator
+    entrypoint: |
+      sawtooth-rest-api -vvv
+        --connect tcp://validator:4004
+        --bind sawtooth-rest-api:8008
+
+  settings-tp:
+    image: hyperledger/sawtooth-settings-tp:1.0
+    depends_on:
+      - validator
+    command: settings-tp -vv --connect tcp://validator:4004
+
+  validator:
+    container_name: validator
+    image: hyperledger/sawtooth-validator:1.0
+    expose:
+      - 4004
+      - 8800
+    ports:
+      - "4004:4004"
+      - "8800:8800"
+    command: |
+      bash -c "
+        if [ ! -f /etc/sawtooth/keys/validator.priv ]; then
+        sawadm keygen &&
+        sawtooth keygen my_key &&
+        sudo apt-get install python3-sawtooth-poet-engine &&
+        sudo sawset genesis -k /etc/sawtooth/keys/validator.priv -o config-genesis.batch &&
+        sudo sawset proposal create -k /etc/sawtooth/keys/validator.priv -o config.batch sawtooth.consensus.algorithm=poet sawtooth.poet.report_public_key_pem="$(cat /etc/sawtooth/simulator_rk_pub.pem)"  sawtooth.poet.valid_enclave_measurements=$(poet enclave measurement) sawtooth.poet.valid_enclave_basenames=$(poet enclave basename) &&
+        sudo poet registration create -k /etc/sawtooth/keys/validator.priv -o poet.batch &&
+        sudo sawset proposal create -k /etc/sawtooth/keys/validator.priv -o poet-settings.batch sawtooth.poet.target_wait_time=5 sawtooth.poet.initial_wait_time=25 sawtooth.publisher.max_batches_per_block=100 &&
+        sawadm genesis config-genesis.batch config.batch poet.batch poet-settings.batch &&
+        sudo chmod -R a+rwx /etc/sawtooth
+        fi;
+        sudo -u sawtooth sawtooth-validator --bind component:tcp://eth0:4004 --bind network:tcp://34.74.73.11:8800 --bind consensus:tcp://eth0:5050 --endpoint tcp://validator:8800 --peers tcp://35.246.28.135:8800 -vvv &&
+        sudo -u sawtooth poet-engine -vv --connect tcp://eth0:5050
+      "

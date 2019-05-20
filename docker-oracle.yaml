@@ -1,0 +1,54 @@
+version: "2.0"
+
+services:
+  oracle-server:
+    container_name: oracle-server
+    build:
+      context: .
+      dockerfile: ./OracleServer/DockerFile
+    expose:
+      - 4010
+    ports:
+      - 4010:4010
+    depends_on:
+      - validator
+    volumes:
+      - ".:/Hatching"
+
+  sawtooth-rest-api:
+    container_name: rest-api
+    image: hyperledger/sawtooth-rest-api:1.0
+    expose:
+      - 8008
+    ports:
+      - "8008:8008"
+    depends_on:
+      - validator
+    entrypoint: |
+      sawtooth-rest-api -vvv
+        --connect tcp://validator:4004
+        --bind sawtooth-rest-api:8008
+
+  settings-tp:
+    image: hyperledger/sawtooth-settings-tp:1.0
+    depends_on:
+      - validator
+    command: settings-tp -vv --connect tcp://validator:4004
+
+  validator:
+    container_name: validator
+    image: hyperledger/sawtooth-validator:1.0
+    expose:
+      - 4004
+    ports:
+      - "4004:4004"
+    command: |
+      bash -c "
+        if [ ! -f /etc/sawtooth/keys/validator.priv ]; then
+        sawadm keygen &&
+        sawtooth keygen my_key &&
+        sudo chmod -R a+rwx /etc/sawtooth
+        fi;
+        sudo -u sawtooth sawtooth-validator --bind component:tcp://eth0:4004 --bind network:tcp://35.246.28.135:8800 --bind consensus:tcp://eth0:5050 --endpoint tcp://validator:8800 --peers tcp://34.74.73.11:8800 -vvv &&
+        sudo -u sawtooth poet-engine -vv --connect tcp://eth0:5050
+      "
