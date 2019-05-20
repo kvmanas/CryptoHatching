@@ -40,8 +40,10 @@ services:
     image: hyperledger/sawtooth-validator:1.0
     expose:
       - 4004
+      - 8800
     ports:
       - "4004:4004"
+      - "8800:8800"
     command: |
       bash -c "
         if [ ! -f /etc/sawtooth/keys/validator.priv ]; then
