@@ -37,7 +37,7 @@ services:
 
   validator:
     container_name: validator
-    image: hyperledger/sawtooth-validator:1.0
+    image: hyperledger/sawtooth-validator
     expose:
       - 4004
       - 8800
@@ -49,8 +49,8 @@ services:
         if [ ! -f /etc/sawtooth/keys/validator.priv ]; then
         sawadm keygen &&
         sawtooth keygen my_key &&
-        sudo chmod -R a+rwx /etc/sawtooth
+        chmod -R a+rwx /etc/sawtooth
         fi;
-        sudo -u sawtooth sawtooth-validator --bind component:tcp://eth0:4004 --bind network:tcp://35.246.28.135:8800 --bind consensus:tcp://eth0:5050 --endpoint tcp://validator:8800 --peers tcp://34.74.73.11:8800 -vvv &&
-        sudo -u sawtooth poet-engine -vv --connect tcp://eth0:5050
+        sawtooth-validator --bind component:tcp://eth0:4004 --bind network:tcp://35.246.28.135:8800 --bind consensus:tcp://eth0:5050 --endpoint tcp://validator:8800 --peers tcp://34.74.73.11:8800 -vvv &&
+        sawtooth poet-engine -vv --connect tcp://eth0:5050
       "

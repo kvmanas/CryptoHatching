@@ -86,7 +86,7 @@ services:
 
   validator:
     container_name: validator
-    image: hyperledger/sawtooth-validator:1.0
+    image: hyperledger/sawtooth-validator
     expose:
       - 4004
       - 8800
@@ -95,17 +95,17 @@ services:
       - "8800:8800"
     command: |
       bash -c "
-        if [ ! -f /etc/sawtooth/keys/validator.priv ]; then
-        sawadm keygen &&
-        sawtooth keygen my_key &&
-        sudo apt-get install python3-sawtooth-poet-engine &&
-        sudo sawset genesis -k /etc/sawtooth/keys/validator.priv -o config-genesis.batch &&
-        sudo sawset proposal create -k /etc/sawtooth/keys/validator.priv -o config.batch sawtooth.consensus.algorithm=poet sawtooth.poet.report_public_key_pem="$(cat /etc/sawtooth/simulator_rk_pub.pem)"  sawtooth.poet.valid_enclave_measurements=$(poet enclave measurement) sawtooth.poet.valid_enclave_basenames=$(poet enclave basename) &&
-        sudo poet registration create -k /etc/sawtooth/keys/validator.priv -o poet.batch &&
-        sudo sawset proposal create -k /etc/sawtooth/keys/validator.priv -o poet-settings.batch sawtooth.poet.target_wait_time=5 sawtooth.poet.initial_wait_time=25 sawtooth.publisher.max_batches_per_block=100 &&
-        sawadm genesis config-genesis.batch config.batch poet.batch poet-settings.batch &&
-        sudo chmod -R a+rwx /etc/sawtooth
-        fi;
-        sudo -u sawtooth sawtooth-validator --bind component:tcp://eth0:4004 --bind network:tcp://34.74.73.11:8800 --bind consensus:tcp://eth0:5050 --endpoint tcp://validator:8800 --peers tcp://35.246.28.135:8800 -vvv &&
-        sudo -u sawtooth poet-engine -vv --connect tcp://eth0:5050
-      "
+         if [ ! -f /etc/sawtooth/keys/validator.priv ]; then
+         sawadm keygen &&
+         sawtooth keygen my_key &&
+         apt-get install python3-sawtooth-poet-engine &&
+         sawset genesis -k /etc/sawtooth/keys/validator.priv -o config-genesis.batch &&
+         sawset proposal create -k /etc/sawtooth/keys/validator.priv -o config.batch sawtooth.consensus.algorithm=poet sawtooth.poet.report_public_key_pem=\"$$(cat /etc/sawtooth/simulator_rk_pub.pem)\"  sawtooth.poet.valid_enclave_measurements=$$(poet enclave measurement) sawtooth.poet.valid_enclave_basenames=$$(poet enclave basename) &&
+         poet registration create -k /etc/sawtooth/keys/validator.priv -o poet.batch &&
+         sawset proposal create -k /etc/sawtooth/keys/validator.priv -o poet-settings.batch sawtooth.poet.target_wait_time=5 sawtooth.poet.initial_wait_time=25 sawtooth.publisher.max_batches_per_block=100 &&
+         sawadm genesis config-genesis.batch config.batch poet.batch poet-settings.batch &&
+         chmod -R a+rwx /etc/sawtooth
+         fi;
+         sawtooth-validator --bind component:tcp://eth0:4004 --bind network:tcp://34.74.73.11:8800 --bind consensus:tcp://eth0:5050 --endpoint tcp://validator:8800 --peers tcp://35.246.28.135:8800 -vvv &&
+         sawtooth poet-engine -vv --connect tcp://eth0:5050
+       "
