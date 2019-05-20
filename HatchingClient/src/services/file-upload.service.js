@@ -1,6 +1,6 @@
 import * as axios from "axios";
 
-const BASE_URL = "http://localhost:4000/bucket";
+const BASE_URL = "/bucket";
 
 function upload(formData) {
   const url = `${BASE_URL}/upload`;

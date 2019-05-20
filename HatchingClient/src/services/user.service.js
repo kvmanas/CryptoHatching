@@ -6,7 +6,7 @@ var decoder = new TextDecoder("utf8");
 var encoder = new TextEncoder("utf8");
 const Admin_FAMILY = "AdminTP";
 const Oracle_FAMILY = "OracleTP";
-const BASE_URL = "http://localhost:4000/api";
+const BASE_URL = "/api";
 
 function hash(v) {
   return createHash("sha512")
@@ -20,7 +20,7 @@ function GetUnits() {
     .then(x => {
       return x.data.data.map(y => {
         let d = JSON.parse(new Buffer(y.data, "base64").toString());
-        let img = "http://localhost:4000/bucket/images/" + d[0].toString();
+        let img = "/bucket/images/" + d[0].toString();
         d.unshift(y.address, img);
         return d;
       });
@@ -56,7 +56,7 @@ function GetPrdUnits() {
     .then(x => {
       return x.data.data.map(y => {
         let d = JSON.parse(new Buffer(y.data, "base64").toString());
-        let img = "http://localhost:4000/bucket/images/" + d[0].toString();
+        let img = "/bucket/images/" + d[0].toString();
         d.unshift(y.address, img);
         return d;
       });
@@ -73,7 +73,7 @@ function GetBrkUnits() {
     .then(x => {
       return x.data.data.map(y => {
         let d = JSON.parse(new Buffer(y.data, "base64").toString());
-        let img = "http://localhost:4000/bucket/images/" + d[0].toString();
+        let img = "/bucket/images/" + d[0].toString();
         d.unshift(y.address, img);
         return d;
       });

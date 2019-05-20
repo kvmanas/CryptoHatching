@@ -75,11 +75,6 @@ export default {
     return {
       Users: [],
       isLoad: false,
-      Usr: {
-        LastActivity: null,
-        Production: null,
-        EggBalance: null
-      },
       AttackStatus: null,
       ReceiptLink: null,
       UserData: null
@@ -87,24 +82,23 @@ export default {
   },
   computed: {},
   async created() {
-    this.Users = await UserList();
-    this.Users = this.Users.filter(function(obj) {
+    var UsersObj = await UserList();
+    this.Users = UsersObj.filter(function(obj) {
       return obj.PubKey !== localStorage.PubKey;
     });
     console.log(this.Users);
     this.$root.$on("login-event", async data => {
-      this.Users = await UserList();
-      this.Users = this.Users.filter(function(obj) {
+      var UsersObj = await UserList();
+      this.Users = UsersObj.filter(function(obj) {
         return obj.PubKey !== localStorage.PubKey;
       });
     });
   },
   methods: {
     UserEggs(index) {
-      this.Usr = this.Users[index];
-      console.log("ThisUser ", this.Usr);
-      var seconds = Math.floor((Date.now() - this.Usr.LastActivity) / 1000);
-      return this.Usr.EggBalance + seconds * this.Usr.Production;
+      var Usr = this.Users[index];
+      var seconds = Math.floor((Date.now() - Usr.LastActivity) / 1000);
+      return Usr.EggBalance + seconds * Usr.Production;
     },
     async AttackUser(index) {
       this.isLoad = true;
@@ -126,7 +120,7 @@ export default {
           setTimeout(async function() {
             that.UserData = await GetUserDt(localStorage.PubKey);
             that.ReceiptLink =
-              "http://localhost:4000/api/receipts?id=" +
+              "/api/receipts?id=" +
               that.UserData.Attacklogs[that.UserData.NoAttacks];
             that.AttackStatus = await GetReceipt(that.ReceiptLink);
             $("#attacklog").modal("show");

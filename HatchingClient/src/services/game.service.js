@@ -6,7 +6,7 @@ const { TextEncoder, TextDecoder } = require("text-encoding/lib/encoding");
 const { Secp256k1PrivateKey } = require("sawtooth-sdk/signing/secp256k1");
 const protobuf = require("sawtooth-sdk/protobuf");
 
-const REST_URL = "http://localhost:4000/api";
+const REST_URL = "/api";
 
 const FAMILY = "ClientTP";
 const Version = "1.0";
